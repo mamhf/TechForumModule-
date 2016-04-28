@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.net.wifi.ScanResult;
+import android.net.wifi.SupplicantState;
 import android.net.wifi.WifiManager;
 
 import com.worldline.a627290.techforum.MainActivity;
@@ -24,7 +25,7 @@ public class WifiReceiver extends BroadcastReceiver {
     }
     @Override
     public void onReceive(Context context, Intent intent) {
-        String action = intent.getAction();
+       /* String action = intent.getAction();
         StringBuilder sb = new StringBuilder();
         wifiList = wifiManager.getScanResults();
         sb.append("\n        Number Of Wifi connections :"+wifiList.size()+"\n\n");
@@ -37,6 +38,17 @@ public class WifiReceiver extends BroadcastReceiver {
         }
 
         System.out.print(sb.toString());
+    */
+        String action = intent.getAction();
+        if (WifiManager.SCAN_RESULTS_AVAILABLE_ACTION .equals(action)) {
+            SupplicantState state = intent.getParcelableExtra(WifiManager.EXTRA_NEW_STATE);
+            if (SupplicantState.isValidState(state)
+                    && state == SupplicantState.COMPLETED) {
+
+                System.out.print("hi");
+            }
+        }
+
     }
     /** Detect you are connected to a specific network. */
 
